@@ -1,7 +1,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstring>
+
 using namespace std;
+
+// isValidScriptLine funtion to detect is a script line is valid
+bool isValidScriptLine(std::string LCodeLine) {
+  if (LCodeLine.front() == '<' &&
+      LCodeLine.back() == '>') {
+        std::cout << "Valid script line!\n";
+        return true; 
+  } else {
+    std::cout << "Invalid script line!\n";
+    return false; 
+  }
+}
+
 
 int main() {
   //Definitions
@@ -34,8 +49,15 @@ int main() {
       CodeVector.push_back(CodeLine);
       i++;
     }
-    //std::cout << i << "\n";
   }
+
+  i = 0;
+
+  while (i < N) {
+    isValidScriptLine(CodeVector.at(i));
+    i++;
+  }
+  
   
 
 
