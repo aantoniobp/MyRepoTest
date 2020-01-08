@@ -3,19 +3,61 @@
 #include <vector>
 #include <cstring>
 
+#define OUT 0
+#define IN 1
+
 using namespace std;
 
 // isValidScriptLine funtion to detect is a script line is valid
 bool isValidScriptLine(std::string LCodeLine) {
   if (LCodeLine.front() == '<' &&
       LCodeLine.back() == '>') {
-        std::cout << "Valid script line!\n";
+        //std::cout << "Valid script line!\n";
         return true; 
   } else {
     std::cout << "Invalid script line!\n";
     return false; 
   }
 }
+
+// numwordsLine function to count the number of words in a cript line
+unsigned numWordsLine (std::string LCodeLine){
+  //
+  int state = OUT;
+  unsigned count = 0; 
+  const char* LCodeLineStr = LCodeLine.c_str();
+  while (*LCodeLineStr) {
+    //
+    if (*LCodeLineStr == ' ')
+    state = OUT;
+    else if (state == OUT) {
+      //
+      state = IN;
+      ++count;
+    }
+    ++LCodeLineStr;
+  }
+  return count; 
+
+}
+
+
+bool isOpeningLine(std::string LCodeLine){
+  // 
+  if (isValidScriptLine(LCodeLine)) {
+    //delete first and last characters
+    LCodeLine.erase(LCodeLine.begin());
+    LCodeLine.pop_back();
+    std::cout << " Number of words in line: " << numWordsLine(LCodeLine) << std::endl;
+
+
+  }
+  return false;
+}
+
+
+
+//bool isClosingLine(std::string LCodeLine)
 
 
 int main() {
@@ -45,16 +87,17 @@ int main() {
 
   while (i < N) {
     std::getline(std::cin, CodeLine);
-    if (!CodeLine.empty()){
+    if (!CodeLine.empty() && (isValidScriptLine(CodeLine))){
       CodeVector.push_back(CodeLine);
       i++;
-    }
+    } 
   }
 
   i = 0;
 
   while (i < N) {
-    isValidScriptLine(CodeVector.at(i));
+    //isValidScriptLine(CodeVector.at(i));
+    isOpeningLine(CodeVector.at(i));
     i++;
   }
   
