@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <sstream>
 
 #define OUT 0
 #define IN 1
@@ -20,10 +21,20 @@ bool isValidScriptLine(std::string LCodeLine) {
   }
 }
 
-// numwordsLine function to count the number of words in a cript line
+// numwordsLine function to count the number of words in a script line
 unsigned numWordsLine (std::string LCodeLine){
   //
-  int state = OUT;
+  unsigned count = 0;
+  std::stringstream strm(LCodeLine); 
+  std::string strword;
+  std::vector <string> str_vect;
+  //std::cout << strm.str() << std::endl;
+  while (strm >> strword ) {
+    //std::cout << strword << std::endl;
+    //count++;
+    str_vect.push_back(strword);
+  }
+  /*int state = OUT;
   unsigned count = 0; 
   const char* LCodeLineStr = LCodeLine.c_str();
   while (*LCodeLineStr) {
@@ -36,8 +47,8 @@ unsigned numWordsLine (std::string LCodeLine){
       ++count;
     }
     ++LCodeLineStr;
-  }
-  return count; 
+  }*/
+  return str_vect.size(); 
 
 }
 
