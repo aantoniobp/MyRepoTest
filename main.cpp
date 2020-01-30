@@ -21,49 +21,53 @@ bool isValidScriptLine(std::string LCodeLine) {
   }
 }
 
-// numwordsLine function to count the number of words in a script line
-unsigned numWordsLine (std::string LCodeLine){
+// stringLine2Vect function to convert a script line from string to vector
+vector <string> stringLine2Vect(std::string LCodeLine){
   //
   unsigned count = 0;
   std::stringstream strm(LCodeLine); 
   std::string strword;
   std::vector <string> str_vect;
-  //std::cout << strm.str() << std::endl;
   while (strm >> strword ) {
-    //std::cout << strword << std::endl;
-    //count++;
     str_vect.push_back(strword);
   }
-  /*int state = OUT;
-  unsigned count = 0; 
-  const char* LCodeLineStr = LCodeLine.c_str();
-  while (*LCodeLineStr) {
-    //
-    if (*LCodeLineStr == ' ')
-    state = OUT;
-    else if (state == OUT) {
-      //
-      state = IN;
-      ++count;
-    }
-    ++LCodeLineStr;
-  }*/
-  return str_vect.size(); 
-
+  return str_vect; 
 }
 
 
 bool isOpeningLine(std::string LCodeLine){
   // 
+  vector <string> LCodeLineVect;
+  vector <string> LCodeLineVectTmp;
+  bool flag = false;
   if (isValidScriptLine(LCodeLine)) {
     //delete first and last characters
     LCodeLine.erase(LCodeLine.begin());
     LCodeLine.pop_back();
-    std::cout << " Number of words in line: " << numWordsLine(LCodeLine) << std::endl;
-
-
+    LCodeLineVect = stringLine2Vect(LCodeLine);
+    //std::cout << " Number of words in line: " << stringLine2Vect(LCodeLine).size() << std::endl;
+    //Store and delete tag-name
+    LCodeLineVect.erase(LCodeLineVect.begin());
+    
+    if (LCodeLineVect.size() >= 3) {
+      //
+      for (int i = 0;i < 3; i++) {
+      LCodeLineVectTmp.push_back(LCodeLineVect.front());
+      LCodeLineVect.erase(LCodeLineVect.begin());
+      }
+      if (LCodeLineVectTmp.at(1) == "=")
+      flag = true; 
+      
+    }
+    else 
+      flag = false;
+    
+    /*if ((LCodeLineVect.size() == 4) &&
+        (LCodeLineVect[2] == "=")) {
+          flag = true;
+        } */
   }
-  return false;
+  return flag;
 }
 
 
@@ -108,7 +112,10 @@ int main() {
 
   while (i < N) {
     //isValidScriptLine(CodeVector.at(i));
-    isOpeningLine(CodeVector.at(i));
+    if (isOpeningLine(CodeVector.at(i))) {
+      std::cout << "Line is open line" << std::endl;
+    } else 
+      std::cout << "Line is not open line" << std::endl;
     i++;
   }
   
