@@ -12,7 +12,8 @@ using namespace std;
 // isValidScriptLine funtion to detect is a script line is valid
 bool isValidScriptLine(std::string LCodeLine) {
   if (LCodeLine.front() == '<' &&
-      LCodeLine.back() == '>') {
+      LCodeLine.back() == '>' &&
+      LCodeLine.size() > 2) {
         //std::cout << "Valid script line!\n";
         return true; 
   } else {
@@ -45,7 +46,7 @@ bool isOpeningLine(std::string LCodeLine){
     LCodeLine.erase(LCodeLine.begin());
     LCodeLine.pop_back();
     LCodeLineVect = stringLine2Vect(LCodeLine);
-    //std::cout << " Number of words in line: " << stringLine2Vect(LCodeLine).size() << std::endl;
+    
     //Store and delete tag-name
     LCodeLineVect.erase(LCodeLineVect.begin());
     
@@ -59,13 +60,11 @@ bool isOpeningLine(std::string LCodeLine){
       flag = true; 
       
     }
-    else 
+    else
+      //String is not longer enought to be a valid opening line , it has to be 1 or greater that 3
       flag = false;
     
-    /*if ((LCodeLineVect.size() == 4) &&
-        (LCodeLineVect[2] == "=")) {
-          flag = true;
-        } */
+
   }
   return flag;
 }
